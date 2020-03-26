@@ -21,8 +21,6 @@ class Hangman extends Component {
     answer: "apple"
   }
 
-
-
   guessedWord = () => {
     return this.state.answer
       //grabs "apple"
@@ -34,15 +32,16 @@ class Hangman extends Component {
 
   handleGuess = (e) => {
     let letter = e.target.value;
-    this.setState(st => ({
-      guessedLetters: st.guessedLetters.add(letter),
-      wrongGuessTotal: st.wrongGuessTotal + (st.answer.includes(letter) ? 0 : 1)
+    this.setState(stateNow => ({
+      guessedLetters: stateNow.guessedLetters.add(letter),
+      wrongGuessTotal: stateNow.wrongGuessTotal + (stateNow.answer.includes(letter) ? 0 : +1)
     }));
   }
 
   generateButtons = () => {
-    return "abcdefghijklmnopqrstuvwxyz".split("").map(letter => (
+    return "abcdefghijklmnopqrstuvwxyz".split("").map((letter, i) => (
       <button
+        key={letter, i}
         value={letter}
         onClick={this.handleGuess}
         disabled={ this.state.guessedLetters.has(letter) }
@@ -60,6 +59,7 @@ class Hangman extends Component {
         <img src={ this.props.images[this.state.wrongGuessTotal] } />
         <p className='Hangman-word'>{ this.guessedWord()}</p>
         <p className='Hangman-btns'>{this.generateButtons()}</p>
+        <h3 className='wrongGuess>'>Guesses Left: { this.props.maxWrong - this.state.wrongGuessTotal }</h3>
       </div>
     );
   }
