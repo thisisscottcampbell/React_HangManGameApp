@@ -13,7 +13,7 @@ class Hangman extends Component {
   
   static defaultProps = {
     maxWrong: 6,
-    images: [img0, img1, img2, img3, img4, img5, img6]
+    images: img0, img1, img2, img3, img4, img5, img6]
   };
 
   state = {
@@ -64,18 +64,24 @@ class Hangman extends Component {
 
  
   render() {
+
+    let isWinner = this.guessedWord().join("") === this.state.answer;
     let gameOver = this.state.wrongGuessTotal >= this.props.maxWrong;
+    const altText = `${this.state.wrongGuessTotal}/${this.props.maxWrong} guesses`;
+    let gameState = this.generateButtons();
+    if (isWinner) gameState = "You Win!";
+    if (gameOver) gameState = "YouLose";
     return (
       <div className='Hangman'>
         <h1>Hangman</h1>
-        <img src={ this.props.images[this.state.wrongGuessTotal] } />
+        <img src={ this.props.images[this.state.wrongGuessTotal] } alt={altText} />
         <p className='wrongGuess>'>Guesses Left: { this.props.maxWrong - this.state.wrongGuessTotal }</p>
         <p className='Hangman-word'>{!gameOver ? this.guessedWord() : this.state.answer}</p>
         <p className='Hangman-btns'>
-          {!gameOver ? this.generateButtons() : `You lose!` }
-          {this.guessedWord().join("") === this.state.answer && <p>YOU WIN!!</p>}
+          
         </p>
          
+          { && <p>YOU WIN!!</p>}
         <button onClick={this.reset} id='restartButton'>New Word</button>
         
       </div>
