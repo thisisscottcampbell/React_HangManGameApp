@@ -13,7 +13,7 @@ class Hangman extends Component {
   
   static defaultProps = {
     maxWrong: 6,
-    images: img0, img1, img2, img3, img4, img5, img6]
+    images: [img0, img1, img2, img3, img4, img5, img6]
   };
 
   state = {
@@ -74,16 +74,19 @@ class Hangman extends Component {
     return (
       <div className='Hangman'>
         <h1>Hangman</h1>
+
         <img src={ this.props.images[this.state.wrongGuessTotal] } alt={altText} />
-        <p className='wrongGuess>'>Guesses Left: { this.props.maxWrong - this.state.wrongGuessTotal }</p>
-        <p className='Hangman-word'>{!gameOver ? this.guessedWord() : this.state.answer}</p>
-        <p className='Hangman-btns'>
-          
+
+        <p className='wrongGuess>'>
+            Guesses Left: { this.props.maxWrong - this.state.wrongGuessTotal }
         </p>
-         
-          { && <p>YOU WIN!!</p>}
+        <p className='Hangman-word'>
+            {!gameOver ? this.guessedWord() : this.state.answer}
+        </p>
+        <p className='Hangman-btns'>
+            {gameState}
+        </p>
         <button onClick={this.reset} id='restartButton'>New Word</button>
-        
       </div>
     );
   }
