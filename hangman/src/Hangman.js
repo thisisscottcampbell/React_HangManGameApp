@@ -7,6 +7,7 @@ import img3 from "./assets/images/3.jpg";
 import img4 from "./assets/images/4.jpg";
 import img5 from "./assets/images/5.jpg";
 import img6 from "./assets/images/6.jpg";
+import {randomWord} from "./words"
 
 class Hangman extends Component {
   
@@ -18,7 +19,7 @@ class Hangman extends Component {
   state = {
     wrongGuessTotal: 0,
     guessedLetters: new Set(),
-    answer: "apple"
+    answer: randomWord()
   }
 
   guessedWord = () => {
@@ -51,15 +52,30 @@ class Hangman extends Component {
     ));
   }
 
+  reset = () => {
+    this.setState({
+      wrongGuessTotal: 0,
+      guessedLetters: new Set(),
+      answer: randomWord()
+    })
+  }
+
+
+
  
   render() {
+    let gameOver = this.state.wrongGuessTotal >= this.props.maxWrong;
     return (
       <div className='Hangman'>
         <h1>Hangman</h1>
         <img src={ this.props.images[this.state.wrongGuessTotal] } />
-        <p className='Hangman-word'>{ this.guessedWord()}</p>
-        <p className='Hangman-btns'>{this.generateButtons()}</p>
-        <h3 className='wrongGuess>'>Guesses Left: { this.props.maxWrong - this.state.wrongGuessTotal }</h3>
+        <p className='wrongGuess>'>Guesses Left: { this.props.maxWrong - this.state.wrongGuessTotal }</p>
+        <p className='Hangman-word'>{!gameOver ? this.guessedWord() : this.state.answer}</p>
+        <p className='Hangman-btns'>
+          {!gameOver ? this.generateButtons() : `You lose!` }
+        </p>
+        <button onClick={this.reset} className='restartButton'>New Word</button>
+        
       </div>
     );
   }
